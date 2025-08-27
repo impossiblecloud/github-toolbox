@@ -3,9 +3,13 @@
 #
 
 FROM alpine:3.21
-WORKDIR /
-RUN apk add --no-cache git github-cli bash \
-    && mkdir -p /root/.ssh \
-    && echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" > /root/.ssh/known_hosts
 
+RUN apk add --no-cache git github-cli bash \
+    && adduser -u 1100 -s /sbin/nologin -D git \
+    && mkdir -p /home/git/.ssh
+
+ADD files/known_hosts /home/git/.ssh/known_hosts
+
+WORKDIR /home/git
+USER 1100
 ENTRYPOINT ["/bin/bash"]
