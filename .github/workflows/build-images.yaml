@@ -1,7 +1,9 @@
 name: Build Docker images
 
 on:
-  workflow_call:
+  pull_request_review:
+    types: [submitted]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -9,9 +11,8 @@ env:
 
 jobs:
   build-and-push-image:
-    # TODO: uncomment it when active development is over
-    # Build image only if PR is approved to avoid having too many random images
-    # if: github.event.review.state == 'approved'
+    # Build image only if PR is approved to avoid having too many random images, or if manually triggered
+    if: github.event.review.state == 'approved' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
