@@ -9,7 +9,7 @@ RUN go install github.com/slawekzachcial/gha-token@1.1.0
 ###### Final image
 FROM alpine:3.22
 
-RUN apk add --no-cache git github-cli bash openssh curl \
+RUN apk add --no-cache git github-cli bash openssh curl jq \
     && adduser -u 1100 -s /sbin/nologin -D git \
     && mkdir -p /home/git/.ssh \
     && chown 1100:1100 /home/git/.ssh \
